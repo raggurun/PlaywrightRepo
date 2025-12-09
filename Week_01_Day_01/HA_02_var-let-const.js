@@ -1,4 +1,4 @@
-	//Using var:
+	//*******Using var:*******
 	
 	// Global variable
     const browserVersion = "Chrome";
@@ -21,8 +21,7 @@
     // Show the global is unaffected
     console.log("[global] browserVersion = " + browserVersion);
 
-
-	 //Using let:
+	 //*******Using let:*******
 	
 	// Global variable
     const browserVersion = "Chrome";
@@ -43,10 +42,9 @@
     getBrowserVersion();
 
     // Show the global is unaffected
-
     console.log("[global] browserVersion = " + browserVersion); 
 
-	 //Using const:
+	 //*******Using const:*******
 	
 	// Global variable
     const browserVersion = "Chrome";
@@ -67,5 +65,4 @@
     getBrowserVersion();
 
     // Show the global is unaffected
-
     console.log("[global] browserVersion = " + browserVersion); 
