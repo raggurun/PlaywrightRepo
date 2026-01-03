@@ -1,0 +1,14 @@
+{
+  "loginInfo": [
+    {
+      "Tc_No": "TC01",    
+      "Username": "Demosalesmanager",
+      "Password": "crmsfa"
+    },
+    {
+      "Tc_No": "TC02",
+      "Username": "DemoCSR",
+      "Password": "crmsfa"
+    }
+  ]
+}
