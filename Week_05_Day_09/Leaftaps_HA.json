@@ -1,0 +1,16 @@
+{
+  "loginInfo": [
+    {
+      "Tc_No": "TC01",    
+      "Username": "Demosalesmanager",
+      "Password": "crmsfa",
+      "Sourcedropdown": "Direct Mail",
+      "Marketingdropdown": "Demo Marketing Campaign",
+      "Industrydropdown": "General Services",
+      "PreferredCurrencydropdown": "INR - Indian Rupee",
+      "Countrydropdown": "India",
+      "Statedropdown": "TAMILNADU"
+    }
+
+  ]
+}
