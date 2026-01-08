@@ -1,0 +1,37 @@
+    import {test, expect } from '@playwright/test';
+    import path from 'path';
+    test('File upload', async ({page, context}) => {
+
+        await page.goto("https://login.salesforce.com/");
+        await page.getByLabel('Username').fill('dilipkumar.rajendran@testleaf.com');
+        await page.getByLabel('Password').fill('TestLeaf@2025');
+        await page.getByRole('button', { name: 'Log In' }).click();
+        await page.waitForTimeout(5000);
+        await page.locator('.slds-icon-waffle').click();
+        await page.waitForTimeout(5000); 
+        //await page.getByText('View All').first().click();
+        await page.locator("//button[@type='button' and @aria-haspopup='dialog' and text()='View All']").click();
+        await page.waitForTimeout(5000);
+        await page.getByPlaceholder('Search apps or items...').fill('Accounts');
+        await page.locator("//mark[text()='Accounts']").click();
+        //await page.locator("//span[@class='slds-truncate'][normalize-space()='Accounts']").click();
+        await page.waitForTimeout(2000);
+        await page.getByRole('button', { name: 'New' }).click();
+        await page.locator("input[name='Name']").fill('Test Account6');
+        await page.click('//button[@aria-label="Type"]');
+        await page.click('//span[text()="Prospect"]');
+        await page.click('//button[@aria-label="Industry"]');
+        await page.click('//span[text()="Banking"]');
+        await page.locator("//button[@name='SaveEdit']").click();
+        const toast = page.locator('.toastMessage.slds-text-heading--small.forceActionsText');
+        await expect(toast).toBeVisible();
+        await expect(toast).toContainText('was created');
+        console.log(await toast.textContent());
+        await page.waitForTimeout(5000);
+        await page.keyboard.press('End');
+        const element = page.locator("//span[text()='Upload Files']");
+        await element.click();
+        await element.setInputFiles("Data/png/New_Image.png");
+        await page.click('//span[text()="Done"]');
+        await page.waitForTimeout(5000);
+    });
