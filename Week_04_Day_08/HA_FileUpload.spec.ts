@@ -30,8 +30,10 @@
         await page.waitForTimeout(5000);
         await page.keyboard.press('End');
         const element = page.locator("//span[text()='Upload Files']");
-        await element.click();
         await element.setInputFiles("Data/png/New_Image.png");
+        const uploadedFile = page.locator("//div[normalize-space(text())='New_Image.png']");
+        await expect(uploadedFile).toBeVisible();
+        await expect(uploadedFile).toHaveText('New_Image.png');
+        console.log(await uploadedFile.textContent());
         await page.click('//span[text()="Done"]');
-        await page.waitForTimeout(5000);
     });
