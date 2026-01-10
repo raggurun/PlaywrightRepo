@@ -25,6 +25,9 @@ test('Ordering Mobile using Service Now Portal', async ({ page }) => {
     await catalogFrame.locator("//label[@for='IO:86c4fa729792cd1021983d1e6253afd3_8335fe729792cd1021983d1e6253af37']").click();
     await catalogFrame.locator('button:has-text("Order Now")').click();
     await expect(catalogFrame.locator('text=Thank you, your request has been submitted')).toBeVisible();
+    const confirmationMessage = await catalogFrame.locator('text=Thank you, your request has been submitted').textContent();
+    console.log("Confirmation Message:", confirmationMessage);
     await page.waitForLoadState('networkidle');
     await page.screenshot({ path: './Data/png/servicenow-order.png', fullPage: true });
+
      });
