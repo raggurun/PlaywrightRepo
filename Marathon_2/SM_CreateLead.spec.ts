@@ -1,0 +1,65 @@
+import { test, expect } from "@playwright/test";
+
+test.use({ storageState: 'utils/Salesforce_Login.json' });
+
+test('Create Lead and convert to Opportunity in Salesforce', async ({ page }) => {
+
+    await page.goto("https://orgfarm-bf1dd99998-dev-ed.develop.lightning.force.com/lightning/page/home");
+        await page.waitForTimeout(3000);
+        await page.locator('.slds-icon-waffle').click();
+        await page.waitForTimeout(3000); 
+        await page.locator("//button[@type='button' and @aria-haspopup='dialog' and text()='View All']").click();
+        await page.waitForTimeout(3000);
+        await page.getByPlaceholder('Search apps or items...').fill('Marketing');
+        await page.locator("//mark[normalize-space()='Marketing']").click();
+        await page.waitForTimeout(2000);
+        await page.locator("//span[@class='slds-truncate'][normalize-space()='Leads']").click();
+        await page.waitForTimeout(2000);
+        await page.locator("//button[@name='New']").click();
+        await page.waitForTimeout(2000);
+        await page.click("//button[@name='salutation']");
+        await page.click("//span[@title='Mrs.']");
+        await page.locator("//input[@name='firstName']").fill("Jane");
+        await page.locator("//input[@name='lastName']").fill("Doe"); 
+        const companyName = "ABC Corp";       
+        await page.locator("//input[@name='Company']").fill(companyName);
+        await page.locator("//button[@name='SaveEdit']").click();
+        const toast = page.locator('.toastMessage.slds-text-heading--small.forceActionsText');
+        await expect(toast).toBeVisible();
+        await expect(toast).toContainText('was created');
+        console.log(await toast.textContent());
+        await page.waitForTimeout(5000);
+        await page.locator("//span[text()='Show more actions']").click();
+        await page.locator("//span[text()='Convert']").click();
+        await page.waitForTimeout(5000);
+        const input = page.getByRole('button', { name: companyName });
+        await input.click();
+        const opportunityInput = page.locator("(//input[@type='text' and @aria-required='true'])[3]");
+        await opportunityInput.fill("ABC opportunity");
+        await page.locator("//button[normalize-space()='Convert']").click();
+        const convertToast = page.locator("//h2[text()='Your lead has been converted']");
+        await expect(convertToast).toBeVisible();
+        await expect(convertToast).toContainText('has been converted');
+        console.log(await convertToast.textContent());
+        await page.locator("//button[normalize-space()='Go to Leads']").click();
+        const search = page.getByRole('button', { name: 'Search' });
+        await search.click();
+        const searchInput = page.getByPlaceholder('Search...');
+        await searchInput.fill("Mrs. Jane Doe");
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(5000);
+        const noItems = page.locator("//span[contains(.,\"didn't find any matches\")]");
+        await expect(noItems).toBeVisible();
+        await expect(noItems).toContainText('find any matches');
+        console.log(await noItems.textContent());
+        await page.locator("//span[@class='slds-truncate'][normalize-space()='Opportunities']").click();
+        const oppSearchInput = page.getByPlaceholder('Search this list...');
+        await oppSearchInput.fill("ABC opportunity");
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(5000);
+        const oppItem = page.getByRole('link', { name: 'ABC opportunity' }).first()
+        await page.waitForTimeout(3000);
+        await expect(oppItem).toBeVisible();
+        await expect(oppItem).toContainText('ABC opportunity');
+        console.log(await oppItem.textContent());
+         });
